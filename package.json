@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --reporters jest-simple-dot-reporter",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -33,5 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.10.0",
+    "jest-simple-dot-reporter": "^1.0.3"
   }
 }
