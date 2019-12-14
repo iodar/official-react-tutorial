@@ -23,8 +23,13 @@ class Board extends React.Component {
 
     handleClick(i) {
         const squares = this.state.squares.slice()
-        squares[i] = this.state.xIsNext ? "X" : "O"
-        this.setState({ squares: squares, xIsNext: !this.state.xIsNext })
+        // ignores click if
+        // # game already has a winner
+        // # squre is filled already
+        if (!(calculateWinner(squares) || squares[i])) {
+            squares[i] = this.state.xIsNext ? "X" : "O"
+            this.setState({ squares: squares, xIsNext: !this.state.xIsNext })
+        }
     }
 
     renderSquare(i) {
@@ -32,7 +37,13 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = "Next player: " + (this.state.xIsNext ? "X" : "O")
+        const winner = calculateWinner(this.state.squares)
+        let status
+        if (winner) {
+            status = `The Winner is ${winner}`
+        } else {
+            status = "Next player: " + (this.state.xIsNext ? "X" : "O")
+        }
 
         return (
             <div>
@@ -71,6 +82,27 @@ class Game extends React.Component {
             </div>
         )
     }
+}
+
+function calculateWinner(squres) {
+    const allWinnerLines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ]
+
+    for (let i = 0; i < allWinnerLines.length; i++) {
+        const [a, b, c] = allWinnerLines[i]
+        if (squres[a] && squres[a] === squres[b] && squres[a] === squres[c]) {
+            return squres[a]
+        }
+    }
+    return null
 }
 
 // ========================================
